@@ -1,0 +1,96 @@
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 10 11 13;
+    --foreground: 255 255 255;
+
+    --card: 26 27 30;
+    --card-foreground: 255 255 255;
+
+    --popover: 26 27 30;
+    --popover-foreground: 255 255 255;
+
+    --primary: 255 140 0;
+    --primary-foreground: 10 11 13;
+
+    --secondary: 42 45 50;
+    --secondary-foreground: 255 255 255;
+
+    --muted: 42 45 50;
+    --muted-foreground: 156 163 175;
+
+    --accent: 255 140 0;
+    --accent-foreground: 10 11 13;
+
+    --destructive: 255 68 68;
+    --destructive-foreground: 255 255 255;
+
+    --border: 42 45 50;
+    --input: 42 45 50;
+    --ring: 255 140 0;
+
+    --radius: 0.5rem;
+  }
+
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-codm-dark text-foreground font-rajdhani;
+    background-image: 
+      radial-gradient(circle at 25% 25%, rgba(255, 140, 0, 0.1) 0%, transparent 50%),
+      radial-gradient(circle at 75% 75%, rgba(0, 191, 255, 0.1) 0%, transparent 50%);
+  }
+
+  /* Custom scrollbar */
+  ::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  ::-webkit-scrollbar-track {
+    @apply bg-codm-gray;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    @apply bg-codm-orange rounded-full;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    @apply bg-codm-orange-light;
+  }
+}
+
+@layer components {
+  .codm-button {
+    @apply bg-gradient-to-r from-codm-orange to-codm-orange-light text-codm-dark font-semibold px-6 py-3 rounded-lg transition-all duration-300 hover:scale-105 hover:shadow-lg;
+  }
+
+  .codm-card {
+    @apply bg-gradient-to-br from-codm-gray to-codm-gray-light border border-codm-orange/20 rounded-lg p-4 backdrop-blur-sm;
+  }
+
+  .codm-input {
+    @apply bg-codm-gray border border-codm-orange/30 rounded-lg px-4 py-2 text-white placeholder-gray-400 focus:border-codm-orange focus:ring-2 focus:ring-codm-orange/20 transition-all duration-300;
+  }
+
+  .weapon-card {
+    @apply codm-card hover:border-codm-orange/50 cursor-pointer transition-all duration-300 hover:scale-105;
+  }
+
+  .weapon-card.selected {
+    @apply border-codm-orange shadow-lg shadow-codm-orange/20;
+  }
+
+  .perk-icon {
+    @apply w-12 h-12 bg-codm-gray-light rounded-lg flex items-center justify-center border border-codm-orange/20 hover:border-codm-orange/50 cursor-pointer transition-all duration-300;
+  }
+
+  .perk-icon.selected {
+    @apply border-codm-orange bg-codm-orange/20;
+  }
+}

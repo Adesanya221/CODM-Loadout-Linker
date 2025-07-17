@@ -1,0 +1,122 @@
+# CODM Loadout Linker
+
+A web application for creating and sharing Call of Duty Mobile loadouts.
+
+## Week 1 Setup
+
+This repository contains the initial setup of the CODM Loadout Linker project, including:
+
+- Basic React application structure with TypeScript
+- React Router setup for navigation
+- Tailwind CSS configuration for styling
+- Basic page components:
+  - Home
+  - Loadout Builder (placeholder)
+  - Profile (placeholder)
+  - 404 Not Found
+
+### Project Structure
+
+```
+src/
+  ├── pages/
+  │   ├── Home.tsx
+  │   ├── LoadoutBuilder.tsx
+  │   ├── Profile.tsx
+  │   └── NotFound.tsx
+  └── App.tsx
+```
+
+
+### Getting Started
+
+1. Clone the repository:
+```bash
+git clone https://github.com/Adesanya221/CoDM-Loadout-Hub-Node.js-JavaScript-Build.git
+```
+
+2. Install dependencies:
+```bash
+npm install
+```
+
+3. Start the development server:
+```bash
+npm start
+```
+
+
+### Technologies Used
+
+- React 18.2.0
+- TypeScript 4.9.5
+- React Router 6.22.0
+- Tailwind CSS 3.4.0
+
+
+### Next Steps
+
+Future weeks will focus on:
+- Firebase authentication
+- Weapon system implementation
+- Loadout management
+- User profiles
+
+
+## Project info
+
+This project is a loadout builder for Call of Duty: Modern Warfare. It allows users to creat
+
+
+## How can I edit this code?
+
+There are several ways of editing your application.
+
+Changes made via Lovable will be committed automatically to this repo.
+
+**Use your preferred IDE**
+
+If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+
+The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+
+Follow these steps:
+
+```sh
+# Step 1: Clone the repository using the project's Git URL.
+git clone <YOUR_GIT_URL>
+
+# Step 2: Navigate to the project directory.
+cd <YOUR_PROJECT_NAME>
+
+# Step 3: Install the necessary dependencies.
+npm i
+
+# Step 4: Start the development server with auto-reloading and an instant preview.
+npm run dev
+```
+
+**Edit a file directly in GitHub**
+
+- Navigate to the desired file(s).
+- Click the "Edit" button (pencil icon) at the top right of the file view.
+- Make your changes and commit the changes.
+
+**Use GitHub Codespaces**
+
+- Navigate to the main page of your repository.
+- Click on the "Code" button (green button) near the top right.
+- Select the "Codespaces" tab.
+- Click on "New codespace" to launch a new Codespace environment.
+- Edit files directly within the Codespace and commit and push your changes once you're done.
+
+
+## What technologies are used for this project?
+
+This project is built with:
+
+- Vite
+- TypeScript
+- React
+- shadcn-ui
+- Tailwind CSS
