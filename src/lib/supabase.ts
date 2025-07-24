@@ -1,10 +1,7 @@
 import { createClient } from '@supabase/supabase-js';
 import { SUPABASE_CONFIG } from '@/config/supabase';
 
-const supabaseUrl = 'https://svgpjurodurenxzbqkox.supabase.co';
-const supabaseAnonKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InN2Z3BqdXJvZHVyZW54emJxa294Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTIzMjI1NTIsImV4cCI6MjA2Nzg5ODU1Mn0.pgvoUqkmrNtidXsFK6UlEBzBHGHAATz0HJrcAeNWE_U'; // Replace with your actual anon key
-
-export const supabase = createClient(supabaseUrl, supabaseAnonKey);
+export const supabase = createClient(SUPABASE_CONFIG.url, SUPABASE_CONFIG.anonKey);
 
 // Types for our loadout data
 export interface LoadoutData {

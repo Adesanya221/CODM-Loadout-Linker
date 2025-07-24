@@ -2,8 +2,8 @@
 // You can find these in your Supabase project dashboard under Settings > API
 
 export const SUPABASE_CONFIG = {
-  url: 'https://svgpjurodurenxzbqkox.supabase.co',
-  anonKey: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InN2Z3BqdXJvZHVyZW54emJxa294Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTIzMjI1NTIsImV4cCI6MjA2Nzg5ODU1Mn0.pgvoUqkmrNtidXsFK6UlEBzBHGHAATz0HJrcAeNWE_U'
+  url: import.meta.env.VITE_SUPABASE_URL,
+  anonKey: import.meta.env.VITE_SUPABASE_ANON_KEY
 };
 
 // Instructions:
