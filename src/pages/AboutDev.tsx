@@ -6,7 +6,7 @@ const AboutDev: React.FC = () => {
     <div className="min-h-screen flex flex-col items-center justify-center py-11 px-4">
       <div className="bg-codm-gray/80 rounded-lg shadow-lg p-8 max-w-xl w-full text-center">
         <img
-          src="src/profile/About_dev.jpg"
+          src="/About_dev.jpg"
           alt="Developer profile"
           className="mx-auto mb-4 w-24 h-24 rounded-full object-cover object-top border-4 border-codm-orange shadow bg-codm-dark"
         />
