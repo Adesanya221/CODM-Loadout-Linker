@@ -96,8 +96,12 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   // Reset password
   async function resetPassword(email: string) {
+    const redirectUrl = typeof window !== 'undefined' && window.location?.origin 
+      ? `${window.location.origin}/reset-password`
+      : '/reset-password';
+    
     const { error } = await supabase.auth.resetPasswordForEmail(email, {
-      redirectTo: window.location.origin + '/reset-password',
+      redirectTo: redirectUrl,
     });
     if (error) throw error;
   }
@@ -114,10 +118,14 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   // Login with Google
   async function loginWithGoogle() {
+    const redirectUrl = typeof window !== 'undefined' && window.location?.origin 
+      ? window.location.origin
+      : '';
+    
     const { error } = await supabase.auth.signInWithOAuth({
       provider: 'google',
       options: {
-        redirectTo: window.location.origin,
+        redirectTo: redirectUrl,
       },
     });
     if (error) throw error;
