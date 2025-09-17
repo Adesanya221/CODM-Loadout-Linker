@@ -59,8 +59,14 @@ export class LoadoutService {
 
   // Generate shareable URL for a loadout
   static generateShareableUrl(loadoutId: string): string {
-    const baseUrl = window.location.origin;
-    return `${baseUrl}/loadout/${loadoutId}`;
+    try {
+      const url = new URL(`/loadout/${loadoutId}`, window.location.origin);
+      return url.toString();
+    } catch (_) {
+      // Fallback to simple concatenation if URL construction fails for any reason
+      const baseUrl = typeof window !== 'undefined' && window.location ? window.location.origin : '';
+      return `${baseUrl}/loadout/${loadoutId}`;
+    }
   }
 
   // Copy shareable URL to clipboard
