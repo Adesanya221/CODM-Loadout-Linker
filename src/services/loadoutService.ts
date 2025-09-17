@@ -1,5 +1,4 @@
 import { supabase, LoadoutData, LoadoutRecord } from '@/lib/supabase';
-import VantaBackground from '../Backgrounds/VantaBackground';
 
 export class LoadoutService {
   // Create a new loadout and return the shareable ID

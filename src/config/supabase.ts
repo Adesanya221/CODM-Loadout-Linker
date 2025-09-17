@@ -6,6 +6,10 @@ export const SUPABASE_CONFIG = {
   anonKey: import.meta.env.VITE_SUPABASE_ANON_KEY
 };
 
+if (!SUPABASE_CONFIG.url || !SUPABASE_CONFIG.anonKey) {
+  throw new Error('VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY are required.');
+}
+
 // Instructions:
 // 1. Go to your Supabase project dashboard
 // 2. Navigate to Settings > API

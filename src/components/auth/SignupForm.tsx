@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Eye, EyeOff } from "lucide-react";
 import { useAuthContext } from "@/contexts/AuthContext";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -13,6 +14,8 @@ export function SignupForm() {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [displayName, setDisplayName] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const { signup, updateUserProfile, loginWithGoogle } = useAuthContext();
   const navigate = useNavigate();
 
@@ -21,6 +24,13 @@ export function SignupForm() {
     
     if (!email || !password || !confirmPassword || !displayName) {
       toast.error("Please fill in all fields");
+      return;
+    }
+    
+    // Add email format validation
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      toast.error("Please enter a valid email address");
       return;
     }
     
@@ -36,7 +46,7 @@ export function SignupForm() {
     
     try {
       setIsLoading(true);
-      const result = await signup(email, password);
+      const result = await signup(email, password, displayName);
       await updateUserProfile(displayName);
       toast.success("Account created successfully");
       navigate("/");
@@ -63,13 +73,13 @@ export function SignupForm() {
   }
 
   return (
-    <Card className="w-full max-w-md mx-auto">
+    <Card className="w-full max-w-md mx-auto shadow-lg border-border/60">
       <CardHeader>
         <CardTitle>Create an account</CardTitle>
-        <CardDescription>Enter your information to create an account</CardDescription>
+        <CardDescription>Join and start creating and sharing loadouts</CardDescription>
       </CardHeader>
       <CardContent>
-        <form onSubmit={handleSubmit} className="space-y-4">
+        <form onSubmit={handleSubmit} className="space-y-5">
           <div className="space-y-2">
             <Label htmlFor="name">Full Name</Label>
             <Input
@@ -78,6 +88,7 @@ export function SignupForm() {
               value={displayName}
               onChange={(e) => setDisplayName(e.target.value)}
               required
+              className="placeholder:text-white"
             />
           </div>
           <div className="space-y-2">
@@ -89,30 +100,60 @@ export function SignupForm() {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
+              className="placeholder:text-white"
             />
           </div>
           <div className="space-y-2">
             <Label htmlFor="password">Password</Label>
-            <Input
-              id="password"
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
-            />
+            <div className="relative">
+              <Input
+                id="password"
+                type={showPassword ? "text" : "password"}
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+                className="pr-10 placeholder:text-white"
+                placeholder="••••••••"
+              />
+              <button
+                type="button"
+                aria-label={showPassword ? "Hide password" : "Show password"}
+                onClick={() => setShowPassword((v) => !v)}
+                className="absolute right-2 top-1/2 -translate-y-1/2 p-1 rounded-md text-muted-foreground hover:text-foreground transition-colors"
+              >
+                {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+              </button>
+            </div>
+            <p className="text-xs text-muted-foreground">Minimum 6 characters.</p>
           </div>
           <div className="space-y-2">
             <Label htmlFor="confirmPassword">Confirm Password</Label>
-            <Input
-              id="confirmPassword"
-              type="password"
-              value={confirmPassword}
-              onChange={(e) => setConfirmPassword(e.target.value)}
-              required
-            />
+            <div className="relative">
+              <Input
+                id="confirmPassword"
+                type={showConfirmPassword ? "text" : "password"}
+                value={confirmPassword}
+                onChange={(e) => setConfirmPassword(e.target.value)}
+                required
+                className="pr-10 placeholder:text-white"
+                placeholder="••••••••"
+              />
+              <button
+                type="button"
+                aria-label={showConfirmPassword ? "Hide password" : "Show password"}
+                onClick={() => setShowConfirmPassword((v) => !v)}
+                className="absolute right-2 top-1/2 -translate-y-1/2 p-1 rounded-md text-muted-foreground hover:text-foreground transition-colors"
+              >
+                {showConfirmPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+              </button>
+            </div>
           </div>
-          <Button type="submit" className="w-full" disabled={isLoading}>
-            {isLoading ? "Creating account..." : "Sign up"}
+          <Button
+            type="submit"
+            className="w-full rounded-full bg-codm-orange text-black hover:bg-codm-orange/90 disabled:opacity-100 disabled:bg-codm-orange/60 disabled:text-black"
+            disabled={isLoading}
+          >
+            {isLoading ? "Creating account..." : "Create account"}
           </Button>
         </form>
       </CardContent>
@@ -125,7 +166,7 @@ export function SignupForm() {
             <span className="bg-background px-2 text-muted-foreground">Or continue with</span>
           </div>
         </div>
-        <Button variant="outline" onClick={handleGoogleSignup} disabled={isLoading} className="w-full">
+        <Button variant="outline" onClick={handleGoogleSignup} disabled={isLoading} className="w-full rounded-full">
           <svg className="mr-2 h-4 w-4" viewBox="0 0 24 24">
             <path
               d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"

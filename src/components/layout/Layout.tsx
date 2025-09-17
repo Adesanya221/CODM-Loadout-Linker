@@ -2,9 +2,7 @@
 // declare module 'three';
 // declare module 'vanta/dist/vanta.net.min';
 
-import React, { useEffect, useRef, ReactNode } from "react";
-import * as THREE from "three";
-import NET from "vanta/dist/vanta.net.min";
+import React, { ReactNode } from "react";
 import { Navbar } from "./Navbar";
 
 interface LayoutProps {
@@ -12,34 +10,12 @@ interface LayoutProps {
 }
 
 const Layout = ({ children }: LayoutProps) => {
-  const vantaRef = useRef<HTMLDivElement>(null);
-  const vantaEffect = useRef<any>(null);
-
-  useEffect(() => {
-    if (!vantaEffect.current) {
-      vantaEffect.current = NET({
-        el: vantaRef.current,
-        THREE,
-        color: 0xffa500, // orange
-        backgroundColor: 0x111111, // black
-        points: 10.0,
-        maxDistance: 25.0,
-        spacing: 20.0,
-        mouseControls: true,
-        touchControls: true,
-        gyroControls: false,
-      });
-    }
-    return () => {
-      if (vantaEffect.current && vantaEffect.current.destroy) vantaEffect.current.destroy();
-    };
-  }, []);
+  // Static background handled via CSS
 
   return (
     <>
-      {/* Vanta background */}
+      {/* Static background */}
       <div
-        ref={vantaRef}
         style={{
           position: "fixed",
           top: 0,
@@ -47,7 +23,8 @@ const Layout = ({ children }: LayoutProps) => {
           width: "100vw",
           height: "100vh",
           zIndex: 0,
-          pointerEvents: "none", // allows clicks to pass through
+          pointerEvents: "none",
+          background: "radial-gradient(1200px 600px at 10% 10%, rgba(255,140,0,0.15), transparent 60%), radial-gradient(1000px 500px at 90% 20%, rgba(255,165,0,0.12), transparent 55%), linear-gradient(180deg, #0a0b0d 0%, #0a0b0d 100%)",
         }}
       />
       {/* Navbar */}
