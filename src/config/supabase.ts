@@ -7,7 +7,7 @@ export const SUPABASE_CONFIG = {
 };
 
 if (!SUPABASE_CONFIG.url || !SUPABASE_CONFIG.anonKey) {
-  throw new Error('https://svgpjurodurenxzbqkox.supabase.co and eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InN2Z3BqdXJvZHVyZW54emJxa294Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTIzMjI1NTIsImV4cCI6MjA2Nzg5ODU1Mn0.pgvoUqkmrNtidXsFK6UlEBzBHGHAATz0HJrcAeNWE_U');
+  throw new Error('VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY are required.');
 }
 
 // Validate the Supabase URL format early to avoid downstream "Invalid URL" errors
