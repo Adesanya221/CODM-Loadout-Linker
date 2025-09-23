@@ -46,7 +46,7 @@ export function SignupForm() {
     
     try {
       setIsLoading(true);
-      const result = await signup(email, password, displayName);
+      await signup(email, password, displayName);
       await updateUserProfile(displayName);
       toast.success("Account created successfully");
       navigate("/");

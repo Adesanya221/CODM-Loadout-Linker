@@ -94,16 +94,15 @@ export function Navbar() {
         <nav className="hidden md:block">
           <ul className="flex items-center space-x-6">
             <li>
-              <motion.button
-                as={Button}
-                className="border border-codm-orange px-4 py-2 rounded-full hover:bg-codm-orange/10 hover:text-codm-orange transition-colors"
-                whileHover={{ scale: 1.07 }}
-                whileTap={{ scale: 0.97 }}
-                onClick={() => setShowModal(true)}
-                type="button"
-              >
-                View Shared Loadout
-              </motion.button>
+              <motion.div whileHover={{ scale: 1.07 }} whileTap={{ scale: 0.97 }}>
+                <Button
+                  className="border border-codm-orange px-4 py-2 rounded-full hover:bg-codm-orange/10 hover:text-codm-orange transition-colors"
+                  onClick={() => setShowModal(true)}
+                  type="button"
+                >
+                  View Shared Loadout
+                </Button>
+              </motion.div>
             </li>
             <li>
               <motion.div whileHover={{ scale: 1.07 }} whileTap={{ scale: 0.97 }}>
@@ -123,21 +122,16 @@ export function Navbar() {
               <li>
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
-                    <motion.button
-                      as={Button}
-                      variant="ghost"
-                      className="relative h-8 w-8 rounded-full"
-                      whileHover={{ scale: 1.1 }}
-                      whileTap={{ scale: 0.97 }}
-                      type="button"
-                    >
-                      <Avatar className="h-8 w-8">
-                        <AvatarImage src={currentUser.photoURL || ""} alt={currentUser.displayName || "User"} />
-                        <AvatarFallback>
-                          {currentUser.displayName ? getInitials(currentUser.displayName) : "U"}
-                        </AvatarFallback>
-                      </Avatar>
-                    </motion.button>
+                    <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.97 }}>
+                      <Button variant="ghost" className="relative h-8 w-8 rounded-full" type="button">
+                        <Avatar className="h-8 w-8">
+                          <AvatarImage src={currentUser.photoURL || ""} alt={currentUser.displayName || "User"} />
+                          <AvatarFallback>
+                            {currentUser.displayName ? getInitials(currentUser.displayName) : "U"}
+                          </AvatarFallback>
+                        </Avatar>
+                      </Button>
+                    </motion.div>
                   </DropdownMenuTrigger>
                   <DropdownMenuContent className="w-56" align="end" forceMount>
                     <motion.div
@@ -173,12 +167,16 @@ export function Navbar() {
               <>
                 <li>
                   <Link to="/login">
-                    <motion.button as={Button} variant="ghost" whileHover={{ scale: 1.07 }} whileTap={{ scale: 0.97 }} type="button">Login</motion.button>
+                    <motion.div whileHover={{ scale: 1.07 }} whileTap={{ scale: 0.97 }}>
+                      <Button variant="ghost" type="button">Login</Button>
+                    </motion.div>
                   </Link>
                 </li>
                 <li>
                   <Link to="/signup">
-                    <motion.button as={Button} whileHover={{ scale: 1.07 }} whileTap={{ scale: 0.97 }} type="button">Sign up</motion.button>
+                    <motion.div whileHover={{ scale: 1.07 }} whileTap={{ scale: 0.97 }}>
+                      <Button type="button">Sign up</Button>
+                    </motion.div>
                   </Link>
                 </li>
               </>

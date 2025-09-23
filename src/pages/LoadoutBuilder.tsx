@@ -41,6 +41,7 @@ function mapRecordToLoadout(record: any): Loadout {
       id: s.id,
       name: s.name,
       cost: s.cost,
+      icon: s.icon ?? "",
     })),
     createdAt: record.created_at,
   };
@@ -63,7 +64,7 @@ const LoadoutBuilder: React.FC = () => {
   const fetchUserLoadouts = async () => {
     if (!currentUser) return;
     try {
-      const userLoadoutRecords = await LoadoutService.getUserLoadouts(currentUser.uid);
+      const userLoadoutRecords = await LoadoutService.getUserLoadouts();
       const userLoadouts = userLoadoutRecords.map(mapRecordToLoadout);
       setCreatedLoadouts(userLoadouts);
     } catch (error) {
@@ -114,6 +115,7 @@ const LoadoutBuilder: React.FC = () => {
           id: ss.id,
           name: ss.name,
           cost: ss.cost,
+          icon: (ss as any).icon ?? "",
         }))
       };
 
