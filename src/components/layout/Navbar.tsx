@@ -187,96 +187,85 @@ export function Navbar() {
       {/* Mobile nav */}
       <AnimatePresence>
         {mobileMenuOpen && (
-          <motion.div
-            key="mobile-menu"
-            className="md:hidden"
-            initial="hidden"
-            animate="visible"
-            exit="exit"
-            variants={mobileMenuVariants}
-            style={{ overflow: "hidden" }}
-          >
-            <nav className="bg-background border-t border-codm-orange/30 shadow-lg">
-              <ul className="flex flex-col items-center p-4 space-y-4">
-                {[
-                  { label: "View Shared Loadout", type: "button", onClick: () => { setShowModal(true); setMobileMenuOpen(false); }, className: "w-full rounded-full border-2 border-codm-orange py-2 hover:text-codm-orange", variant: "outline" },
-                  { label: "Home", to: "/", className: "block py-2 text-center w-full rounded-full border-2 border-codm-orange hover:bg-codm-orange/10 hover:text-codm-orange transition-colors" },
-                  { label: "About the Dev", to: "/about-dev", className: "block py-2 text-center w-full rounded-full border-2 border-codm-orange hover:bg-codm-orange/10 hover:text-codm-orange transition-colors" },
-                ].map((item, i) => (
-                  <motion.li
-                    className="w-full"
-                    key={item.label}
-                    custom={i}
-                    variants={menuItemVariants}
-                    initial="hidden"
-                    animate="visible"
-                    exit="hidden"
-                  >
-                    {item.type === "button" ? (
-                      <Button variant={item.variant as any} className={item.className} onClick={item.onClick}>{item.label}</Button>
-                    ) : (
-                      <Link to={item.to!} className={item.className} onClick={() => setMobileMenuOpen(false)}>{item.label}</Link>
-                    )}
+          <>
+            {/* Backdrop */}
+            <motion.div
+              key="backdrop"
+              className="fixed inset-0 z-40 bg-black/50 md:hidden"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setMobileMenuOpen(false)}
+              aria-hidden="true"
+            />
+            {/* Sliding sidebar */}
+            <motion.aside
+              key="mobile-sidebar"
+              className="fixed right-0 top-0 z-50 h-full w-72 bg-background border-l border-codm-orange/30 md:hidden shadow-xl"
+              initial={{ x: 320 }}
+              animate={{ x: 0 }}
+              exit={{ x: 320 }}
+              transition={{ type: "spring", stiffness: 300, damping: 30 }}
+              role="dialog"
+              aria-label="Mobile Navigation"
+            >
+              <div className="p-3 flex items-center justify-end">
+                <button
+                  onClick={() => setMobileMenuOpen(false)}
+                  aria-label="Close menu"
+                  className="p-2 bg-transparent focus:outline-none"
+                >
+                  ✕
+                </button>
+              </div>
+              <nav className="p-4">
+                <ul className="flex flex-col gap-2">
+                  <motion.li variants={menuItemVariants} initial="hidden" animate="visible">
+                    <Button variant="outline" className="w-full justify-start rounded-md border-codm-orange" onClick={() => { setShowModal(true); setMobileMenuOpen(false); }}>
+                      View Shared Loadout
+                    </Button>
                   </motion.li>
-                ))}
-                {currentUser ? (
-                  <>
-                    <motion.li
-                      className="w-full"
-                      custom={3}
-                      variants={menuItemVariants}
-                      initial="hidden"
-                      animate="visible"
-                      exit="hidden"
-                    >
-                      <Link to="/profile" className="block py-2 text-center w-full rounded-full border-2 border-codm-orange hover:bg-codm-orange/10 hover:text-codm-orange transition-colors" onClick={() => setMobileMenuOpen(false)}>
-                        <Button variant="ghost" className="w-full rounded-full hover:text-codm-orange">Profile</Button>
-                      </Link>
-                    </motion.li>
-                    <motion.li
-                      className="w-full"
-                      custom={4}
-                      variants={menuItemVariants}
-                      initial="hidden"
-                      animate="visible"
-                      exit="hidden"
-                    >
-                      <Button variant="ghost" className="w-full rounded-full border-2 border-codm-orange hover:text-codm-orange" onClick={() => { handleLogout(); setMobileMenuOpen(false); }}>
-                        Log out
-                      </Button>
-                    </motion.li>
-                  </>
-                ) : (
-                  <>
-                    <motion.li
-                      className="w-full"
-                      custom={3}
-                      variants={menuItemVariants}
-                      initial="hidden"
-                      animate="visible"
-                      exit="hidden"
-                    >
-                      <Link to="/login" className="block py-2 text-center w-full rounded-full border-2 border-codm-orange hover:bg-codm-orange/10 hover:text-codm-orange transition-colors" onClick={() => setMobileMenuOpen(false)}>
-                        <Button variant="ghost" className="w-full rounded-full hover:text-codm-orange">Login</Button>
-                      </Link>
-                    </motion.li>
-                    <motion.li
-                      className="w-full"
-                      custom={4}
-                      variants={menuItemVariants}
-                      initial="hidden"
-                      animate="visible"
-                      exit="hidden"
-                    >
-                      <Link to="/signup" className="block py-2 text-center w-full rounded-full border-2 border-codm-orange hover:bg-codm-orange/10 hover:text-codm-orange transition-colors" onClick={() => setMobileMenuOpen(false)}>
-                        <Button className="w-full rounded-full text-white hover:text-codm-orange">Sign up</Button>
-                      </Link>
-                    </motion.li>
-                  </>
-                )}
-              </ul>
-            </nav>
-          </motion.div>
+                  <motion.li variants={menuItemVariants} initial="hidden" animate="visible">
+                    <Link to="/" onClick={() => setMobileMenuOpen(false)} className="block px-3 py-2 rounded-md border border-transparent hover:border-codm-orange hover:text-codm-orange transition-colors">
+                      Home
+                    </Link>
+                  </motion.li>
+                  <motion.li variants={menuItemVariants} initial="hidden" animate="visible">
+                    <Link to="/about-dev" onClick={() => setMobileMenuOpen(false)} className="block px-3 py-2 rounded-md border border-transparent hover:border-codm-orange hover:text-codm-orange transition-colors">
+                      About the Dev
+                    </Link>
+                  </motion.li>
+                  {currentUser ? (
+                    <>
+                      <motion.li variants={menuItemVariants} initial="hidden" animate="visible">
+                        <Link to="/profile" onClick={() => setMobileMenuOpen(false)} className="block px-3 py-2 rounded-md border border-transparent hover:border-codm-orange hover:text-codm-orange transition-colors">
+                          Profile
+                        </Link>
+                      </motion.li>
+                      <motion.li variants={menuItemVariants} initial="hidden" animate="visible">
+                        <Button variant="ghost" className="w-full justify-start rounded-md border border-codm-orange/40 hover:text-codm-orange" onClick={() => { handleLogout(); setMobileMenuOpen(false); }}>
+                          Log out
+                        </Button>
+                      </motion.li>
+                    </>
+                  ) : (
+                    <>
+                      <motion.li variants={menuItemVariants} initial="hidden" animate="visible">
+                        <Link to="/login" onClick={() => setMobileMenuOpen(false)} className="block px-3 py-2 rounded-md border border-transparent hover:border-codm-orange hover:text-codm-orange transition-colors">
+                          Login
+                        </Link>
+                      </motion.li>
+                      <motion.li variants={menuItemVariants} initial="hidden" animate="visible">
+                        <Link to="/signup" onClick={() => setMobileMenuOpen(false)} className="block px-3 py-2 rounded-md border border-transparent hover:border-codm-orange hover:text-codm-orange transition-colors">
+                          Sign up
+                        </Link>
+                      </motion.li>
+                    </>
+                  )}
+                </ul>
+              </nav>
+            </motion.aside>
+          </>
         )}
       </AnimatePresence>
       {/* Modal for viewing shared loadout */}

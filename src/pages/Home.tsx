@@ -100,12 +100,12 @@ export default function Home() {
               Create, customize, and share your ultimate Call of Duty: Mobile loadouts
             </motion.p>
             <motion.div
-              className="grid grid-cols-1 sm:grid-cols-2 gap-4 justify-center max-w-xs mx-auto mb-8"
+              className="grid grid-cols-2 gap-4 justify-center w-full max-w-md mx-auto mb-8"
               variants={heroChild}
             >
               <Link to="/loadouts">
                 <motion.button
-                  className="codm-button text-lg px-8 py-4 w-full"
+                  className="codm-button text-lg px-8 py-4"
                   whileHover={{ scale: 1.07, boxShadow: '0 0 16px #ff8c00' }}
                   whileTap={{ scale: 0.97 }}
                   type="button"
@@ -115,7 +115,7 @@ export default function Home() {
               </Link>
               <Link to="/signup">
                 <motion.button
-                  className="border border-codm-orange text-codm-orange hover:bg-codm-orange hover:text-codm-dark text-lg px-8 py-4 bg-transparent w-full"
+                  className="border border-codm-orange text-codm-orange hover:bg-codm-orange hover:text-codm-dark text-lg px-8 py-4 bg-transparent"
                   whileHover={{ scale: 1.07, boxShadow: '0 0 16px #ff8c00' }}
                   whileTap={{ scale: 0.97 }}
                   type="button"
@@ -152,6 +152,7 @@ export default function Home() {
               aria-label="Previous feature"
               onClick={prevFeature}
               className="absolute left-0 z-10 p-2 bg-codm-dark/80 rounded-full text-codm-orange hover:bg-codm-orange hover:text-codm-dark transition-colors"
+              type="button"
             >
               &#8592;
             </button>
@@ -179,6 +180,7 @@ export default function Home() {
               aria-label="Next feature"
               onClick={nextFeature}
               className="absolute right-0 z-10 p-2 bg-codm-dark/80 rounded-full text-codm-orange hover:bg-codm-orange hover:text-codm-dark transition-colors"
+              type="button"
             >
               &#8594;
             </button>
