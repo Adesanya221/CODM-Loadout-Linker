@@ -169,20 +169,20 @@ const LoadoutBuilder: React.FC = () => {
             <h2 className="text-2xl font-bold text-codm-orange mb-6 font-orbitron">
               RECENT LOADOUTS
             </h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="grid grid-cols-3 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3">
               {createdLoadouts.map((loadout, index) => (
                 <Card key={index} className="codm-card">
-                  <div className="p-6">
-                    <h3 className="text-xl font-semibold text-codm-orange mb-3 flex items-center gap-2">
+                  <div className="p-2">
+                    <h3 className="text-[13px] sm:text-base font-semibold text-codm-orange mb-1 flex items-center gap-2">
                       <GiPistolGun className="text-codm-orange text-xl" />
-                      {loadout.title}
+                      <span className="truncate max-w-[7.5rem] sm:max-w-none">{loadout.title}</span>
                     </h3>
-                    <div className="space-y-2 text-sm text-gray-300">
-                      <p className="flex items-center gap-2"><GiPistolGun className="text-codm-orange" /><strong>Weapon:</strong> {loadout.weapon.name}</p>
-                      <p className="flex items-center gap-2"><MdBolt className="text-codm-orange" /><strong>Perks:</strong> {Object.values(loadout.perks).map(p => p?.name).filter(Boolean).join(', ')}</p>
-                      <p className="flex items-center gap-2"><GiHelicopter className="text-codm-orange" /><strong>Scorestreaks:</strong> {loadout.scorestreaks.map(s => s.name).join(', ')}</p>
+                    <div className="space-y-0.5 text-[11px] sm:text-sm text-gray-300">
+                      <p className="flex items-center gap-1"><GiPistolGun className="text-codm-orange" /><strong>Weapon:</strong> {loadout.weapon.name}</p>
+                      <p className="flex items-center gap-1"><MdBolt className="text-codm-orange" /><strong>Perks:</strong> {Object.values(loadout.perks).map(p => p?.name).filter(Boolean).join(', ')}</p>
+                      <p className="flex items-center gap-1"><GiHelicopter className="text-codm-orange" /><strong>Scorestreaks:</strong> {loadout.scorestreaks.map(s => s.name).join(', ')}</p>
                     </div>
-                    <Button className="codm-button mt-4 w-full">
+                    <Button className="codm-button mt-2 w-full text-[12px] sm:text-base py-1.5">
                       VIEW DETAILS
                     </Button>
                   </div>
