@@ -3,9 +3,16 @@ import { supabase, LoadoutData, LoadoutRecord } from '@/lib/supabase';
 export class LoadoutService {
   // Create a new loadout and return the shareable ID
   static async createLoadout(loadoutData: LoadoutData): Promise<string> {
+    // Get current user
+    const { data: { user } } = await supabase.auth.getUser();
+    if (!user) throw new Error('User must be authenticated to create a loadout');
+    
     const { data, error } = await supabase
       .from('loadouts')
-      .insert({ data: loadoutData })
+      .insert({ 
+        data: { ...loadoutData, user_id: user.id },
+        user_id: user.id 
+      })
       .select('id')
       .single();
     if (error) throw error;
@@ -37,12 +44,17 @@ export class LoadoutService {
     }
   }
 
-  // Get all loadouts (for future use - user's loadouts)
+  // Get user loadouts for the current user
   static async getUserLoadouts(): Promise<LoadoutRecord[]> {
     try {
+      // Get current user
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) throw new Error('User must be authenticated to fetch loadouts');
+      
       const { data, error } = await supabase
         .from('loadouts')
         .select('*')
+        .eq('user_id', user.id)
         .order('created_at', { ascending: false });
 
       if (error) {

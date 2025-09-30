@@ -6,6 +6,7 @@ export const supabase = createClient(SUPABASE_CONFIG.url, SUPABASE_CONFIG.anonKe
 // Types for our loadout data
 export interface LoadoutData {
   title: string;
+  user_id?: string;
   weapon: {
     id: string;
     name: string;
@@ -44,6 +45,7 @@ export interface LoadoutData {
 export interface LoadoutRecord {
   id: string;
   data: LoadoutData;
+  user_id: string;
   created_at: string;
   updated_at: string;
 }

@@ -11,17 +11,17 @@ import { motion, AnimatePresence } from 'framer-motion';
 export default function Home() {
   const features = [
     {
-      icon: <GiPistolGun className="text-4xl mb-4 text-codm-orange flex justify-center" />,
+      icon: <GiPistolGun className="text-4xl mb-4 text-codm-orange mx-auto block" />,
       title: 'Weapon Builder',
       desc: 'Choose from all available weapons and customize with attachments',
     },
     {
-      icon: <MdBolt className="text-4xl mb-4 text-codm-orange flex justify-center" />,
+      icon: <MdBolt className="text-4xl mb-4 text-codm-orange mx-auto block" />,
       title: 'Perk Selection',
       desc: 'Select the perfect combination of red, green, and blue perks',
     },
     {
-      icon: <GiHelicopter className="text-4xl mb-4 text-codm-orange flex justify-center" />,
+      icon: <GiHelicopter className="text-4xl mb-4 text-codm-orange mx-auto block" />,
       title: 'Scorestreaks',
       desc: 'Equip powerful scorestreaks to dominate the battlefield',
     },
