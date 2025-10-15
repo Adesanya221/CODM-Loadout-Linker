@@ -96,32 +96,34 @@ export function Navbar() {
   };
 
   return (
-    <motion.header
-      className="sticky top-0 z-[9998] w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60"
-      variants={navVariants}
-      initial="hidden"
-      animate="visible"
-    >
-      <div className="container mx-auto px-4 py-3 flex items-center justify-between">
-        <Link to="/" className="text-xl font-bold flex items-center gap-2">
-          <span className="text-primary">CODM</span> Loadout Linker
-        </Link>
-        {/* Hamburger for mobile */}
-        <motion.button
-          className="md:hidden p-2 rounded focus:outline-none focus:ring-2 focus:ring-codm-orange"
-          onClick={() => setMobileMenuOpen((open) => !open)}
-          aria-label="Open navigation menu"
-          animate={{ rotate: mobileMenuOpen ? 90 : 0 }}
-          transition={{ type: "spring", stiffness: 300, damping: 20 }}
-        >
-          <FaBars className="text-2xl text-codm-orange" />
-        </motion.button>
-        {/* Desktop nav */}
-        <nav className="hidden md:block">
-          <ul className="flex items-center space-x-6">
-            <li>
-              <motion.div whileHover={{ scale: 1.07 }} whileTap={{ scale: 0.97 }}>
-                <Button
+    <div className="relative">
+      <motion.header
+        className="sticky top-0 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60"
+        variants={navVariants}
+        initial="hidden"
+        animate="visible"
+        style={{ position: 'relative', zIndex: 1000 }}
+      >
+        <div className="container mx-auto px-4 py-3 flex items-center justify-between">
+          <Link to="/" className="text-xl font-bold flex items-center gap-2">
+            <span className="text-primary">CODM</span> Loadout Linker
+          </Link>
+          {/* Hamburger for mobile */}
+          <motion.button
+            className="md:hidden p-2 rounded focus:outline-none focus:ring-2 focus:ring-codm-orange z-[1000]"
+            onClick={() => setMobileMenuOpen((open) => !open)}
+            aria-label="Open navigation menu"
+            animate={{ rotate: mobileMenuOpen ? 90 : 0 }}
+            transition={{ type: "spring", stiffness: 300, damping: 20 }}
+          >
+            <FaBars className="text-2xl text-codm-orange" />
+          </motion.button>
+          {/* Desktop nav */}
+          <nav className="hidden md:block">
+            <ul className="flex items-center space-x-6">
+              <li>
+                <motion.div whileHover={{ scale: 1.07 }} whileTap={{ scale: 0.97 }}>
+                  <Button
                   className="border border-codm-orange px-4 py-2 rounded-full hover:bg-codm-orange/10 hover:text-codm-orange transition-colors"
                   onClick={() => setShowModal(true)}
                   type="button"
@@ -217,19 +219,16 @@ export function Navbar() {
       <AnimatePresence>
         {mobileMenuOpen && (
           <motion.div
-            className="fixed inset-0 z-[9999] md:hidden"
+            className="mobile-menu-backdrop"
             initial="hidden"
             animate="visible"
             exit="exit"
             variants={backdropVariants}
             onClick={() => setMobileMenuOpen(false)}
           >
-            {/* Backdrop with blur */}
-            <div className="absolute inset-0 bg-black/50 backdrop-blur-sm" />
-            
             {/* Side Menu */}
             <motion.div
-              className="fixed top-0 right-0 h-full w-3/4 max-w-xs bg-gradient-to-b from-background/95 to-background/90 backdrop-blur-lg border-l border-border/50 shadow-2xl p-6 overflow-y-auto z-[10000]"
+              className="mobile-menu-content"
               variants={mobileMenuVariants}
               initial="hidden"
               animate="visible"
@@ -379,6 +378,37 @@ export function Navbar() {
           </div>
         </div>
       )}
-    </motion.header>
+      </motion.header>
+
+      {/* Global styles for mobile menu */}
+      <style jsx global>{`
+        /* Ensure mobile menu appears above all other content */
+        .mobile-menu-backdrop {
+          position: fixed !important;
+          top: 0 !important;
+          left: 0 !important;
+          right: 0 !important;
+          bottom: 0 !important;
+          z-index: 2147483647 !important;
+          background-color: rgba(0, 0, 0, 0.5) !important;
+          backdrop-filter: blur(4px) !important;
+        }
+        .mobile-menu-content {
+          position: fixed !important;
+          top: 0 !important;
+          right: 0 !important;
+          height: 100vh !important;
+          width: 75% !important;
+          max-width: 24rem !important;
+          z-index: 2147483647 !important;
+          background: linear-gradient(to bottom, hsl(var(--background)/0.95), hsl(var(--background)/0.9)) !important;
+          backdrop-filter: blur(16px) !important;
+          border-left: 1px solid hsl(var(--border)/0.5) !important;
+          box-shadow: -4px 0 24px rgba(0, 0, 0, 0.2) !important;
+          padding: 1.5rem !important;
+          overflow-y: auto !important;
+        }
+      `}</style>
+    </div>
   );
-} 
+}
