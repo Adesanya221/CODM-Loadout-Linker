@@ -64,14 +64,40 @@ export function Navbar() {
     visible: (i: number) => ({ opacity: 1, y: 0, transition: { delay: 0.08 * i, duration: 0.4 } }),
   };
   const mobileMenuVariants = {
-    hidden: { opacity: 0, y: -24 },
-    visible: { opacity: 1, y: 0, transition: { duration: 0.4 } },
-    exit: { opacity: 0, y: -24, transition: { duration: 0.3 } },
+    hidden: { opacity: 0, x: '100%' },
+    visible: { 
+      opacity: 1, 
+      x: 0, 
+      transition: { 
+        duration: 0.3,
+        ease: [0.16, 1, 0.3, 1]
+      } 
+    },
+    exit: { 
+      opacity: 0, 
+      x: '100%', 
+      transition: { 
+        duration: 0.2,
+        ease: [0.4, 0, 0.2, 1]
+      } 
+    },
+  };
+
+  const backdropVariants = {
+    hidden: { opacity: 0 },
+    visible: { 
+      opacity: 1,
+      transition: { duration: 0.3 }
+    },
+    exit: { 
+      opacity: 0,
+      transition: { duration: 0.2 }
+    }
   };
 
   return (
     <motion.header
-      className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60"
+      className="sticky top-0 z-[9998] w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60"
       variants={navVariants}
       initial="hidden"
       animate="visible"
@@ -153,10 +179,13 @@ export function Navbar() {
                       </div>
                       <DropdownMenuSeparator />
                       <DropdownMenuItem asChild>
-                        <Link to="/profile" className="cursor-pointer">Profile</Link>
+                        <Link to="/profile" className="w-full">Profile</Link>
                       </DropdownMenuItem>
                       <DropdownMenuSeparator />
-                      <DropdownMenuItem onClick={handleLogout} className="cursor-pointer">
+                      <DropdownMenuItem
+                        onClick={handleLogout}
+                        className="w-full text-red-500 focus:bg-red-50 focus:text-red-600"
+                      >
                         Log out
                       </DropdownMenuItem>
                     </motion.div>
@@ -184,88 +213,144 @@ export function Navbar() {
           </ul>
         </nav>
       </div>
-      {/* Mobile nav */}
+      {/* Mobile Menu */}
       <AnimatePresence>
         {mobileMenuOpen && (
-          <>
-            {/* Backdrop */}
+          <motion.div
+            className="fixed inset-0 z-[9999] md:hidden"
+            initial="hidden"
+            animate="visible"
+            exit="exit"
+            variants={backdropVariants}
+            onClick={() => setMobileMenuOpen(false)}
+          >
+            {/* Backdrop with blur */}
+            <div className="absolute inset-0 bg-black/50 backdrop-blur-sm" />
+            
+            {/* Side Menu */}
             <motion.div
-              key="backdrop"
-              className="fixed inset-0 z-40 bg-black/50 md:hidden"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              onClick={() => setMobileMenuOpen(false)}
-              aria-hidden="true"
-            />
-            {/* Sliding sidebar */}
-            <motion.aside
-              key="mobile-sidebar"
-              className="fixed right-0 top-0 z-50 h-full w-72 bg-background border-l border-codm-orange/30 md:hidden shadow-xl"
-              initial={{ x: 320 }}
-              animate={{ x: 0 }}
-              exit={{ x: 320 }}
-              transition={{ type: "spring", stiffness: 300, damping: 30 }}
-              role="dialog"
-              aria-label="Mobile Navigation"
+              className="fixed top-0 right-0 h-full w-3/4 max-w-xs bg-gradient-to-b from-background/95 to-background/90 backdrop-blur-lg border-l border-border/50 shadow-2xl p-6 overflow-y-auto z-[10000]"
+              variants={mobileMenuVariants}
+              initial="hidden"
+              animate="visible"
+              exit="exit"
+              onClick={(e) => e.stopPropagation()}
             >
-              <div className="p-3 flex items-center justify-end">
-                <button
-                  onClick={() => setMobileMenuOpen(false)}
-                  aria-label="Close menu"
-                  className="p-2 bg-transparent focus:outline-none"
-                >
-                  ✕
-                </button>
-              </div>
-              <nav className="p-4">
-                <ul className="flex flex-col gap-2">
-                  <motion.li variants={menuItemVariants} initial="hidden" animate="visible">
-                    <Button variant="outline" className="w-full justify-start rounded-md border-codm-orange" onClick={() => { setShowModal(true); setMobileMenuOpen(false); }}>
-                      View Shared Loadout
+              {/* Close button */}
+              <button
+                onClick={() => setMobileMenuOpen(false)}
+                className="absolute top-4 right-4 p-2 rounded-full hover:bg-muted transition-colors"
+                aria-label="Close menu"
+              >
+                <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </button>
+              <div className="h-full flex flex-col">
+                <ul className="space-y-2 flex-1">
+                  <motion.li variants={menuItemVariants} custom={0}>
+                    <Button
+                      variant="ghost"
+                      className="w-full justify-start text-base px-4 py-6 hover:bg-muted/50 rounded-lg transition-all"
+                      onClick={() => {
+                        setShowModal(true);
+                        setMobileMenuOpen(false);
+                      }}
+                    >
+                      <span className="flex items-center gap-3">
+                        <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                        </svg>
+                        View Shared Loadout
+                      </span>
                     </Button>
                   </motion.li>
-                  <motion.li variants={menuItemVariants} initial="hidden" animate="visible">
-                    <Link to="/" onClick={() => setMobileMenuOpen(false)} className="block px-3 py-2 rounded-md border border-transparent hover:border-codm-orange hover:text-codm-orange transition-colors">
-                      Home
+                  
+                  <motion.li variants={menuItemVariants} custom={1}>
+                    <Link
+                      to="/loadout/new"
+                      className="flex items-center gap-3 w-full text-left px-4 py-6 text-base hover:bg-muted/50 rounded-lg transition-all"
+                      onClick={() => setMobileMenuOpen(false)}
+                    >
+                      <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
+                      </svg>
+                      Create New Loadout
                     </Link>
                   </motion.li>
-                  <motion.li variants={menuItemVariants} initial="hidden" animate="visible">
-                    <Link to="/about-dev" onClick={() => setMobileMenuOpen(false)} className="block px-3 py-2 rounded-md border border-transparent hover:border-codm-orange hover:text-codm-orange transition-colors">
-                      About the Dev
-                    </Link>
-                  </motion.li>
-                  {currentUser ? (
-                    <>
-                      <motion.li variants={menuItemVariants} initial="hidden" animate="visible">
-                        <Link to="/profile" onClick={() => setMobileMenuOpen(false)} className="block px-3 py-2 rounded-md border border-transparent hover:border-codm-orange hover:text-codm-orange transition-colors">
-                          Profile
-                        </Link>
-                      </motion.li>
-                      <motion.li variants={menuItemVariants} initial="hidden" animate="visible">
-                        <Button variant="ghost" className="w-full justify-start rounded-md border border-codm-orange/40 hover:text-codm-orange" onClick={() => { handleLogout(); setMobileMenuOpen(false); }}>
-                          Log out
-                        </Button>
-                      </motion.li>
-                    </>
-                  ) : (
-                    <>
-                      <motion.li variants={menuItemVariants} initial="hidden" animate="visible">
-                        <Link to="/login" onClick={() => setMobileMenuOpen(false)} className="block px-3 py-2 rounded-md border border-transparent hover:border-codm-orange hover:text-codm-orange transition-colors">
-                          Login
-                        </Link>
-                      </motion.li>
-                      <motion.li variants={menuItemVariants} initial="hidden" animate="visible">
-                        <Link to="/signup" onClick={() => setMobileMenuOpen(false)} className="block px-3 py-2 rounded-md border border-transparent hover:border-codm-orange hover:text-codm-orange transition-colors">
-                          Sign up
-                        </Link>
-                      </motion.li>
-                    </>
+                  
+                  {currentUser && (
+                    <motion.li variants={menuItemVariants} custom={2}>
+                      <Link
+                        to="/my-loadouts"
+                        className="flex items-center gap-3 w-full text-left px-4 py-6 text-base hover:bg-muted/50 rounded-lg transition-all"
+                        onClick={() => setMobileMenuOpen(false)}
+                      >
+                        <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
+                        </svg>
+                        My Loadouts
+                      </Link>
+                    </motion.li>
                   )}
+                  
+                  <motion.li variants={menuItemVariants} custom={3}>
+                    <Link
+                      to="/leaderboard"
+                      className="flex items-center gap-3 w-full text-left px-4 py-6 text-base hover:bg-muted/50 rounded-lg transition-all"
+                      onClick={() => setMobileMenuOpen(false)}
+                    >
+                      <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+                      </svg>
+                      Leaderboard
+                    </Link>
+                  </motion.li>
                 </ul>
-              </nav>
-            </motion.aside>
-          </>
+                
+                {currentUser ? (
+                  <motion.div 
+                    className="mt-auto pt-6 border-t border-border/30"
+                    variants={menuItemVariants}
+                    custom={4}
+                  >
+                    <Button variant="ghost" className="w-full justify-start rounded-md border border-codm-orange/40 hover:text-codm-orange" onClick={() => { handleLogout(); setMobileMenuOpen(false); }}>
+                      Log out
+                    </Button>
+                  </motion.div>
+                ) : (
+                  <motion.div 
+                    className="mt-auto pt-6 border-t border-border/30"
+                    variants={menuItemVariants}
+                    custom={4}
+                  >
+                    <div className="space-y-3">
+                      <Button
+                        variant="outline"
+                        className="w-full border-codm-orange text-codm-orange hover:bg-codm-orange/10 hover:text-codm-orange"
+                        onClick={() => {
+                          navigate("/login");
+                          setMobileMenuOpen(false);
+                        }}
+                      >
+                        Sign In
+                      </Button>
+                      <Button
+                        className="w-full bg-codm-orange hover:bg-codm-orange/90"
+                        onClick={() => {
+                          navigate("/register");
+                          setMobileMenuOpen(false);
+                        }}
+                      >
+                        Sign Up
+                      </Button>
+                    </div>
+                  </motion.div>
+                )}
+              </div>
+            </motion.div>
+          </motion.div>
         )}
       </AnimatePresence>
       {/* Modal for viewing shared loadout */}
